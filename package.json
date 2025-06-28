@@ -1,0 +1,27 @@
+{
+  "name": "mcp-random",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "mcp"
+  ],
+  "license": "GPL-3.0-only",
+  "author": "arthrp",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "node build/index.js",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.13.2",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.6",
+    "typescript": "^5.8.3"
+  }
+}
