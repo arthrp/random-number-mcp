@@ -1,12 +1,13 @@
 import express, { Request, Response } from "express";
 import { randomUUID } from "node:crypto";
+import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
+import { z } from "zod";
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 
 /**
- * The tool returns a random number (0–1) each time it is called.
+ * The tool returns a random number (0–N) each time it is called.
  */
 function createRandomNumberServer() {
   const server = new McpServer({
@@ -18,13 +19,17 @@ function createRandomNumberServer() {
     "random-number",
     {
       title: "Random Number",
-      description: "Return a random floating-point number between 0 and 1.",
+      description:
+        "Return a random floating-point number between 0 and a given maximum.",
+      inputSchema: {
+        max: z.number().int().describe("The upper bound for the random number."),
+      },
     },
-    async () => ({
+    async ({ max }: { max: number }) => ({
       content: [
         {
           type: "text",
-          text: String(Math.random()),
+          text: String(Math.random() * max),
         },
       ],
     })
